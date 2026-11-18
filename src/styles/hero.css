@@ -52,31 +52,7 @@
     color: var(--color-yellow);
   }
 
-  .hsearch {
-    display: flex;
-    width: 100%;
-    max-width: 520px;
-    background: var(--color-white);
-    overflow: hidden;
-    height: 62px;
-    border-radius: 14px;
-    padding: 6px;
-    box-shadow: 0 26px 48px -26px rgba(8,14,30,.8);
-  }
 
-  .hsearch input {
-    flex: 1;
-    min-width: 0;
-    border: 0;
-    outline: 0;
-    padding: 0 14px;
-    font-size: 16px;
-  }
-
-  .hsearch button {
-    min-height: 0;
-    border-radius: 9px;
-  }
 
   .chips {
     display: flex;
