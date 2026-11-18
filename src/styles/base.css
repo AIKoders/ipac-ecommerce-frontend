@@ -94,7 +94,6 @@
   .d3 { --i: 3; }
   .d4 { --i: 4; }
   .d5 { --i: 5; }
-  .d6 { --i: 6; }
 
   /*
    * Reveal on scroll. It moves with `translate`, not `transform`, so an

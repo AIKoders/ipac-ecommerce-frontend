@@ -28,19 +28,14 @@ const ticker = (['ticker1', 'ticker2', 'ticker3', 'ticker4', 'ticker5', 'ticker6
       <span class="eyebrow rise d0">{t('heroEyebrow')}</span>
       <h1 class="hd rise d1">{t('heroTitle')} <em>{t('heroTitleEm')}<span class="gd">.</span></em></h1>
       <p class="hero-sub rise d2">{t('heroSub')}</p>
-      <form class="hsearch rise d3" role="search" action={to('/shop')} method="get">
-        <label class="sr" for="heroq">{t('heroSearch')}</label>
-        <input id="heroq" name="q" type="search" placeholder={t('heroSearch')} autocomplete="off" enterkeyhint="search" />
-        <button class="btn" type="submit"><Icon name="search" />{tc('search')}</button>
-      </form>
-      <div class="chips rise d4">
+      <div class="chips rise d3">
         {chips.map((chip) => <a class="chip" href={to(`/shop/${chip.category?.handle}`)}>{chip.label}</a>)}
       </div>
-      <div class="row-c rise d5">
+      <div class="row-c rise d4">
         <a class="btn y" href={to('/shop')}>{tc('shopSupplies')}<Icon name="arrowRight" /></a>
         <a class="btn ow" href={to('/contact')}>{tc('requestQuote')}</a>
       </div>
-      <div class="stats rise d6">
+      <div class="stats rise d5">
         <div><b>{t('stat1Value')}</b><span>{t('stat1Label')}</span></div>
         <div><b>{tc('freeLocalDelivery')}</b><span>{t('stat2Label')}</span></div>
         <div><b>{t('stat3Value')}</b><span>{t('stat3Label')}</span></div>
