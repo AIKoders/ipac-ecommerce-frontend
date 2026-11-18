@@ -1,0 +1,132 @@
+/*
+ * Design tokens and the base layer. Loaded first by BaseLayout; every other
+ * sheet in this folder sits in the `components` layer, so Tailwind utilities
+ * always win over them.
+ */
+@import 'tailwindcss';
+
+@theme static {
+  /* Only brand colors exist: a utility with an off-palette color does not compile. */
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-navy: #1d2d50;
+  --color-navy-mid: #16233f;
+  --color-navy-deep: #0f1830;
+  --color-green: #6dab3c;
+  --color-leaf: #3f6b1f;
+  --color-yellow: #efee7c;
+  --color-yellow-soft: #f7f6a6;
+  --color-ink: #1a1f2b;
+  --color-slate: #4a5060;
+  --color-tint: #e8ebf2;
+  --color-paper: #f7f8f3;
+  --color-line: #d9dcd0;
+  --color-line-soft: #e6e8df;
+  --color-mint: #e3f0d8;
+  --color-mint-soft: #ddedd0;
+
+  /* Text and strokes on navy. */
+  --color-mist: #d5dbea;
+  --color-haze: #c9d0e0;
+  --color-placeholder-on-navy: #aeb7cc;
+
+  /* Neutral strokes on white. */
+  --color-steel: #b9c0d2;
+  --color-field: #9aa3b8;
+  --color-dash: #8f98ad;
+  --color-dash-soft: #a9b1c3;
+  --color-star-off: #c5cad6;
+  --color-placeholder: #667085;
+
+  /* Form errors: the only red in the palette. */
+  --color-danger: #b3302a;
+
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), var(--font-inter), system-ui, sans-serif;
+
+  --shadow-lift: 0 1px 2px rgb(29 45 80 / 0.05), 0 22px 48px -28px rgb(29 45 80 / 0.38);
+
+  /* The design's two breakpoints: phone/tablet layout below 900px, compact header below 1100px. */
+  --breakpoint-*: initial;
+  --breakpoint-md: 56.3125rem;
+  --breakpoint-lg: 68.8125rem;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100vh;
+    overflow-x: clip;
+    background: var(--color-white);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :where(button, summary, [role='button']) {
+    cursor: pointer;
+    text-align: inherit;
+  }
+
+  :where(summary) {
+    list-style: none;
+  }
+
+  :where(summary)::-webkit-details-marker {
+    display: none;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-green);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-yellow);
+    color: var(--color-ink);
+  }
+
+  ::placeholder {
+    color: var(--color-placeholder);
+    opacity: 1;
+  }
+
+  [id] {
+    scroll-margin-top: 100px;
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+}
+
+/* Cross-document view transitions: a short cross-fade between pages, the header held in place. */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.18s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

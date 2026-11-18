@@ -1,0 +1,10 @@
+---
+import ShopView from '@/components/shop/ShopView.astro';
+import { localeFromParam, localeStaticPaths } from '@/i18n';
+
+export const getStaticPaths = localeStaticPaths;
+
+const locale = localeFromParam(Astro.params.lang);
+---
+
+<ShopView locale={locale} category={null} />

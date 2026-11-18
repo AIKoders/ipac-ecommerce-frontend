@@ -1,0 +1,54 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import Picture from '@/components/ui/Picture.astro';
+import { localizePath, translator, type Locale } from '@/i18n';
+import { common } from '@/i18n/ns/common';
+import { home } from '@/i18n/ns/home';
+import { localMedia } from '@/lib/media';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = translator(home, locale);
+const tc = translator(common, locale);
+const thumb = (key: string) => localMedia('products', key);
+---
+
+<section class="sec dark">
+  <div class="wrap split">
+    <div class="rv flex flex-col items-start gap-[22px]">
+      <span class="eyebrow">{tc('recurringOrders')}</span>
+      <h2 class="hd h2">{t('recurTitle1')}<br />{t('recurTitle2')}</h2>
+      <p class="max-w-[480px] text-[18px] text-mist">{t('recurLead')}</p>
+      <ul class="ticks">
+        {(['recurTick1', 'recurTick2', 'recurTick3'] as const).map((key) => <li><Icon name="check" /><span>{t(key)}</span></li>)}
+      </ul>
+      <div class="row-c">
+        <a class="btn y" href={localizePath(locale, '/account/sign-in')}>{t('recurCta')}</a>
+        <span class="fine text-mist">{t('recurAlt')}</span>
+      </div>
+    </div>
+    <div class="mock rv" aria-hidden="true">
+      <div class="mk mk1">
+        <div class="sp"><b>{t('mockOrder')}</b><span class="pillx g">{tc('statusDelivered')}</span></div>
+        <div class="thumbs">
+          {['box', 'tape', 'bubble-wrap'].map((key) => <Picture media={thumb(key)} alt="" sizes="60px" />)}
+        </div>
+        <span class="btn sm full">{tc('reorderAll')}</span>
+      </div>
+      <div class="mk mk2">
+        <div class="sp"><b class="hd text-[20px]">{t('mockName')}</b><span class="pillx yl">{t('mockEvery')}</span></div>
+        <div class="thumbs">
+          {['cups', 'takeout', 'paper-bags', 'deli'].map((key) => <Picture media={thumb(key)} alt="" sizes="60px" />)}
+        </div>
+        <span class="fine inline-flex items-center gap-2"><Icon name="truck" />{t('mockNext')}</span>
+        <div class="flex gap-2">
+          <span class="btn o sm flex-1">{tc('skipNext')}</span>
+          <span class="btn o sm flex-1">{tc('pause')}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,53 @@
+---
+import '@/styles/content.css';
+import '@/styles/home.css';
+import PageHead from '@/components/ui/PageHead.astro';
+import PostCard from '@/components/ui/PostCard.astro';
+import { localeFromParam, localeStaticPaths, translator } from '@/i18n';
+import { blog } from '@/i18n/ns/blog';
+import { common } from '@/i18n/ns/common';
+import { seo } from '@/i18n/ns/seo';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getApi } from '@/lib/api';
+import { ORGANIZATION_ID, absoluteUrl, breadcrumbList } from '@/lib/seo';
+
+export const getStaticPaths = localeStaticPaths;
+
+const locale = localeFromParam(Astro.params.lang);
+const posts = await getApi(locale).content.listPosts();
+const t = translator(blog, locale);
+const tc = translator(common, locale);
+const ts = translator(seo, locale);
+const url = absoluteUrl(locale, '/blog');
+const graph = [
+  breadcrumbList([
+    { name: tc('home'), url: absoluteUrl(locale, '/') },
+    { name: tc('blog'), url },
+  ]),
+  {
+    '@type': 'Blog',
+    '@id': `${url}#blog`,
+    url,
+    name: ts('blogTitle'),
+    description: ts('blogDescription'),
+    inLanguage: locale,
+    publisher: { '@id': ORGANIZATION_ID },
+    blogPost: posts.map((post) => {
+      const postUrl = absoluteUrl(locale, `/blog/${post.slug}`);
+      // Same @id as the post page's BlogPosting, so both describe one entity.
+      return { '@type': 'BlogPosting', '@id': `${postUrl}#article`, headline: post.title, description: post.excerpt, datePublished: post.publishedAt, url: postUrl };
+    }),
+  },
+];
+---
+
+<BaseLayout locale={locale} title={ts('blogTitle')} description={ts('blogDescription')} path="/blog" ogKey="blog" section="blog" graph={graph}>
+  <PageHead eyebrow={t('eyebrow')} title={t('title')} lead={t('lead')} />
+  <main id="main" class="sec">
+    <div class="wrap">
+      <div class="posts">
+        {posts.map((post) => <PostCard locale={locale} post={post} heading="h2" />)}
+      </div>
+    </div>
+  </main>
+</BaseLayout>

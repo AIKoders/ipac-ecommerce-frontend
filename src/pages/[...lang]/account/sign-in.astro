@@ -1,0 +1,33 @@
+---
+import '@/styles/account.css';
+import { SignIn } from '@/components/islands/SignIn';
+import Icon from '@/components/ui/Icon.astro';
+import Picture from '@/components/ui/Picture.astro';
+import { localeFromParam, localeStaticPaths, translator } from '@/i18n';
+import { auth } from '@/i18n/ns/auth';
+import { seo } from '@/i18n/ns/seo';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { localMedia } from '@/lib/media';
+
+export const getStaticPaths = localeStaticPaths;
+
+const locale = localeFromParam(Astro.params.lang);
+const t = translator(auth, locale);
+const ts = translator(seo, locale);
+---
+
+<BaseLayout locale={locale} title={ts('signInTitle')} description={ts('signInDescription')} path="/account/sign-in" noindex>
+  <main id="main" class="page">
+    <div class="wrap auth">
+      <div class="auth-side">
+        <span class="eyebrow text-yellow">{t('eyebrow')}</span>
+        <h1 class="hd h2">{t('title1')}<br />{t('title2')}</h1>
+        <ul class="ticks">
+          {(['tick1', 'tick2', 'tick3'] as const).map((key) => <li><Icon name="check" /><span>{t(key)}</span></li>)}
+        </ul>
+        <Picture media={localMedia('products', 'box-brand')} alt="" sizes="230px" />
+      </div>
+      <SignIn client:load locale={locale} />
+    </div>
+  </main>
+</BaseLayout>

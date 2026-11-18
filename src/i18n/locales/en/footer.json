@@ -1,0 +1,12 @@
+{
+  "company": "Company",
+  "emailAddress": "Email address",
+  "invalidEmail": "Enter a valid email address.",
+  "join": "Join",
+  "joined": "You are on the list.",
+  "legal": "© {year} IPAC Industries LLC",
+  "newsBody": "Deals and seasonal checklists, about once a month.",
+  "rights": "All rights reserved.",
+  "sampleNote": "Demo store. Catalog, prices, policies and reviews are sample content.",
+  "tagline": "Business supplies for Southwest Florida, delivered."
+}

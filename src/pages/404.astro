@@ -1,0 +1,51 @@
+---
+import '@/styles/home.css';
+import PageHead from '@/components/ui/PageHead.astro';
+import { INLINE_SCRIPTS } from '@/config/inline-scripts';
+import { defaultLocale, localizePath, locales, translator } from '@/i18n';
+import { notFound } from '@/i18n/ns/notFound';
+import { seo } from '@/i18n/ns/seo';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+/**
+ * One static file answers every unknown URL, so the locale is not known when
+ * it is built. Both languages are in the document: the default one is shown,
+ * and the script below swaps in the other when the address is under its prefix.
+ */
+const versions = locales.map((locale) => {
+  const t = translator(notFound, locale);
+  return {
+    locale,
+    documentTitle: translator(seo, locale)('notFoundTitle'),
+    eyebrow: t('eyebrow'),
+    title: t('title'),
+    body: t('body'),
+    shop: { label: t('cta'), href: localizePath(locale, '/shop') },
+    home: { label: t('home'), href: localizePath(locale, '/') },
+  };
+});
+---
+
+<BaseLayout locale={defaultLocale} title={translator(seo, defaultLocale)('notFoundTitle')} description={translator(notFound, defaultLocale)('body')} path="/404" noindex>
+  <main id="main">
+    <script is:inline set:html={INLINE_SCRIPTS.notFoundLocale} />
+    {
+      versions.map((version) => (
+        <div class={`nf-${version.locale}`} data-not-found={version.locale} data-title={version.documentTitle} lang={version.locale === defaultLocale ? undefined : version.locale}>
+          <PageHead eyebrow={version.eyebrow} title={version.title} lead={version.body} />
+          <div class="sec">
+            <div class="wrap row-c">
+              <a class="btn" href={version.shop.href}>{version.shop.label}</a>
+              <a class="btn o" href={version.home.href}>{version.home.label}</a>
+            </div>
+          </div>
+        </div>
+      ))
+    }
+  </main>
+  <script>
+    // The tab's title follows the language the inline script picked.
+    const shown = document.querySelector<HTMLElement>(document.documentElement.classList.contains('is-es') ? '[data-not-found="es"]' : '[data-not-found="en"]');
+    if (shown?.dataset.title) document.title = shown.dataset.title;
+  </script>
+</BaseLayout>

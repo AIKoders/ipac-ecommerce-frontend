@@ -1,0 +1,27 @@
+---
+import { LETTER_A, LETTER_C, LETTER_P, STEM_PATH, STEM_SCALE } from '@/components/ui/logo-paths';
+
+/**
+ * The page loader: a blurred veil and the ipac logo, whose dot hops across the
+ * letters while a real wait is in flight. Shown by setting `$loader` (see
+ * stores/ui.ts); the animation itself is scripts/loader.ts.
+ */
+---
+
+<div class="ld" role="status" aria-live="polite" data-loader>
+  <div class="ld-card">
+    <svg class="ld-logo" viewBox="-8 -64 216 186" aria-hidden="true">
+      <g data-ld="stem"><g transform={`scale(${STEM_SCALE})`}><path d={STEM_PATH} class="fill-yellow"></path></g></g>
+      <g data-ld="p"><path d={LETTER_P} class="fill-white"></path></g>
+      <g data-ld="a"><path d={LETTER_A} class="fill-white"></path></g>
+      <g data-ld="c"><path d={LETTER_C} class="fill-white"></path></g>
+      <g data-ld="dot" transform="translate(18.42 36.84)"><circle cx="0" cy="-18.42" r="18.42" class="fill-green"></circle></g>
+    </svg>
+    <span class="ld-t" data-loader-text></span>
+    <span class="ld-bar"><i></i></span>
+  </div>
+</div>
+
+<script>
+  import '@/scripts/loader';
+</script>

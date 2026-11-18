@@ -1,0 +1,25 @@
+---
+import '@/styles/checkout.css';
+import { CheckoutPage } from '@/components/islands/CheckoutPage';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import { localeFromParam, localeStaticPaths, localizePath, translator } from '@/i18n';
+import { common } from '@/i18n/ns/common';
+import { seo } from '@/i18n/ns/seo';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+export const getStaticPaths = localeStaticPaths;
+
+const locale = localeFromParam(Astro.params.lang);
+const tc = translator(common, locale);
+const ts = translator(seo, locale);
+---
+
+<BaseLayout locale={locale} title={ts('checkoutTitle')} description={ts('homeDescription')} path="/checkout" noindex>
+  <main id="main" class="page">
+    <div class="wrap">
+      <Breadcrumbs locale={locale} items={[{ label: tc('cart'), href: localizePath(locale, '/cart') }, { label: tc('checkout') }]} />
+      <h1 class="hd h2 mb-6">{tc('checkout')}</h1>
+      <CheckoutPage client:load locale={locale} />
+    </div>
+  </main>
+</BaseLayout>

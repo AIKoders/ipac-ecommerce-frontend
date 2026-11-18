@@ -1,0 +1,18 @@
+{
+  "added": "Added to your cart",
+  "close": "Close cart",
+  "emptyBody": "Start with the supplies most businesses reorder.",
+  "emptyTitle": "Your cart is empty.",
+  "forSaved": "for saved addresses.",
+  "freeRemaining": "Add {amount} more for free local delivery",
+  "freeUnlocked": "You have free local delivery",
+  "guestCheckout": "Checking out as a guest.",
+  "guestNote": "No account needed. Check out as a guest.",
+  "popEmpty": "Nothing in here yet. Most orders take under two minutes.",
+  "recos": "Often added before checkout",
+  "removeName": "Remove {name}",
+  "startShopping": "Start shopping",
+  "subtotalDot": "Subtotal ·",
+  "title": "Your cart",
+  "view": "View cart"
+}

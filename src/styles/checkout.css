@@ -1,0 +1,114 @@
+/* Cart, checkout and order confirmation layouts. */
+@layer theme, base, components, utilities;
+
+@layer components {
+  .co {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 36px;
+    align-items: flex-start;
+  }
+
+  .co-main {
+    flex: 999 1 520px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .sum {
+    flex: 1 1 320px;
+    max-width: 400px;
+    position: sticky;
+    top: 96px;
+    border: 1px solid var(--color-line);
+    padding: 22px;
+    background: var(--color-paper);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-radius: 22px;
+    border-color: var(--color-line-soft);
+  }
+
+  .sum .sp {
+    font-size: 15px;
+  }
+
+  .sum .tot {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    border-top: 1.5px solid var(--color-ink);
+    padding-top: 12px;
+    margin-top: 4px;
+  }
+
+  .line {
+    display: grid;
+    grid-template-columns: 92px minmax(0,1fr) auto;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--color-line);
+    align-items: center;
+  }
+
+  .line > a img,
+  .line > img {
+    width: 92px;
+    height: 92px;
+    object-fit: contain;
+    background: var(--color-paper);
+    border-radius: 14px;
+    padding: 8px;
+  }
+
+  .line h3 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  .line-r {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .confirm {
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    align-items: center;
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
+    .sum {
+      max-width: none;
+      position: static;
+    }
+
+    .line {
+      grid-template-columns: 72px minmax(0,1fr);
+    }
+
+    .line > a img,
+    .line > img {
+      width: 72px;
+      height: 72px;
+    }
+
+    .line-r {
+      grid-column: 1/-1;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}

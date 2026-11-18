@@ -1,0 +1,45 @@
+{
+  "name": "ipac-ecommerce-frontend",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ipac storefront: business supplies for Southwest Florida (Astro + Bun, deployed on Vercel).",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "bun test",
+    "images": "bun scripts/optimize-images.ts",
+    "astro": "astro"
+  },
+  "trustedDependencies": [
+    "sharp"
+  ],
+  "dependencies": {
+    "@astrojs/preact": "^6.1.6",
+    "@astrojs/vercel": "^11.0.22",
+    "@nanostores/preact": "^1.1.1",
+    "astro": "^7.4.12",
+    "nanostores": "^1.5.5",
+    "preact": "^11.2.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/space-grotesk": "^5.3.0",
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/space-grotesk": "^5.3.0",
+    "@resvg/resvg-js": "^2.6.2",
+    "@tailwindcss/vite": "^4.3.5",
+    "@types/bun": "^1.4.4",
+    "@types/node": "^24",
+    "satori": "^0.63.2",
+    "sharp": "^0.35.5",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^6.0.3"
+  }
+}

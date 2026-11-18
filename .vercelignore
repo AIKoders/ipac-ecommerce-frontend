@@ -1,0 +1,9 @@
+# Local files that never belong in a deployment
+.env
+.env.*
+!.env.example
+.astro
+dist
+node_modules
+.claude
+test

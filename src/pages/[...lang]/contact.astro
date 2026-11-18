@@ -1,0 +1,109 @@
+---
+import '@/styles/content.css';
+import '@/styles/home.css';
+import { ContactForm } from '@/components/islands/ContactForm';
+import Icon from '@/components/ui/Icon.astro';
+import PageHead from '@/components/ui/PageHead.astro';
+import { localeFromParam, localeStaticPaths, translator } from '@/i18n';
+import { common } from '@/i18n/ns/common';
+import { contact } from '@/i18n/ns/contact';
+import { seo } from '@/i18n/ns/seo';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getApi } from '@/lib/api';
+import { ORGANIZATION_ID, WEBSITE_ID, absoluteUrl, breadcrumbList } from '@/lib/seo';
+
+export const getStaticPaths = localeStaticPaths;
+
+const locale = localeFromParam(Astro.params.lang);
+const t = translator(contact, locale);
+const tc = translator(common, locale);
+const ts = translator(seo, locale);
+const settings = await getApi(locale).store.getSettings();
+// The business has not published its contact details yet: every one of these can be null.
+const { address, phone, email } = settings.contact;
+const addressLines = address ? [[address.line1, address.line2].filter(Boolean).join(', '), `${address.city}, ${address.region} ${address.postalCode}`] : null;
+const mapsUrl = addressLines && `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressLines.join(', '))}`;
+const url = absoluteUrl(locale, '/contact');
+const graph = [
+  breadcrumbList([
+    { name: tc('home'), url: absoluteUrl(locale, '/') },
+    { name: tc('contact'), url },
+  ]),
+  {
+    '@type': 'ContactPage',
+    '@id': `${url}#webpage`,
+    url,
+    name: ts('contactTitle'),
+    description: ts('contactDescription'),
+    inLanguage: locale,
+    isPartOf: { '@id': WEBSITE_ID },
+    about: { '@id': ORGANIZATION_ID },
+  },
+];
+---
+
+<BaseLayout locale={locale} title={ts('contactTitle')} description={ts('contactDescription')} path="/contact" ogKey="contact" section="contact" graph={graph}>
+  <PageHead eyebrow={tc('contact')} title={t('title')} lead={t('lead')} />
+  <main id="main" class="sec">
+    <div class="wrap split items-start">
+      <div>
+        <ContactForm client:load locale={locale} />
+      </div>
+      <div class="flex flex-col gap-6">
+        <ul class="cinfo">
+          <li>
+            <span class="ico"><Icon name="pin" /></span>
+            <span>
+              <b>{t('warehouse')}</b><br />
+              <span class="mut">{addressLines ? addressLines.map((line, index) => <Fragment>{index > 0 && <br />}{line}</Fragment>) : t('onRequest')}</span>
+            </span>
+          </li>
+          {
+            phone && (
+              <li>
+                <span class="ico"><Icon name="phone" /></span>
+                <span>
+                  <b>{t('callText')}</b><br />
+                  <a class="mut underline underline-offset-[3px]" href={`tel:${phone.replace(/[^\d+]/g, '')}`}>{phone}</a>
+                </span>
+              </li>
+            )
+          }
+          {
+            email && (
+              <li>
+                <span class="ico"><Icon name="mail" /></span>
+                <span>
+                  <b>{tc('email')}</b><br />
+                  <a class="mut underline underline-offset-[3px]" href={`mailto:${email}`}>{email}</a>
+                </span>
+              </li>
+            )
+          }
+          <li>
+            <span class="ico"><Icon name="clock" /></span>
+            <span>
+              <b>{t('hours')}</b><br />
+              <span class="mut">{t('hoursValue')}</span>
+            </span>
+          </li>
+        </ul>
+        <div class="map">
+          <div class="flex flex-col items-center gap-1.5">
+            <b class="text-ink">{t('mapTitle')}</b>
+            {
+              addressLines && mapsUrl ? (
+                <Fragment>
+                  <span>{addressLines.map((line, index) => <Fragment>{index > 0 && <br />}{line}</Fragment>)}</span>
+                  <a class="lnk" href={mapsUrl} target="_blank" rel="noopener noreferrer">{t('openMaps')}<span class="sr">{` (${t('newTab')})`}</span><Icon name="arrowRight" /></a>
+                </Fragment>
+              ) : (
+                <span>{t('onRequest')}</span>
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>

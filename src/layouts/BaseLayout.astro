@@ -1,0 +1,73 @@
+---
+import '@/styles/global.css';
+import '@/styles/base.css';
+import '@/styles/controls.css';
+import '@/styles/header.css';
+import '@/styles/footer.css';
+import '@/styles/loader.css';
+import { Font } from 'astro:assets';
+import Footer from '@/components/layout/Footer.astro';
+import Header, { type HeaderSection } from '@/components/layout/Header.astro';
+import Loader from '@/components/layout/Loader.astro';
+import Seo from '@/components/seo/Seo.astro';
+import { env } from '@/config/env';
+import { INLINE_SCRIPTS } from '@/config/inline-scripts';
+import { site } from '@/config/site';
+import { translator, type Locale } from '@/i18n';
+import { common } from '@/i18n/ns/common';
+import { seo } from '@/i18n/ns/seo';
+import { getApi } from '@/lib/api';
+import { siteGraph, type JsonLd } from '@/lib/seo';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  /** Locale-free path of the page: `/shop/tape-labels`. */
+  path: string;
+  ogKey?: string;
+  ogType?: 'website' | 'article' | 'product';
+  noindex?: boolean;
+  /** Page-level JSON-LD nodes, added to the site's Organization and WebSite. */
+  graph?: JsonLd[];
+  section?: HeaderSection;
+  activeCategory?: string;
+}
+
+const { locale, title, description, path, ogKey, ogType, noindex, graph = [], section, activeCategory } = Astro.props;
+const api = getApi(locale);
+const [settings, categories] = await Promise.all([api.store.getSettings(), api.catalog.listCategories()]);
+const tc = translator(common, locale);
+const ts = translator(seo, locale);
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline set:html={INLINE_SCRIPTS.jsFlag} />
+    <Font cssVariable="--font-inter" preload />
+    <Font cssVariable="--font-space-grotesk" preload />
+    <Seo locale={locale} title={title} description={description} path={path} ogKey={ogKey} ogType={ogType} noindex={noindex} graph={[...siteGraph(locale, settings, ts('homeDescription')), ...graph]} />
+    <meta name="theme-color" content={site.themeColor} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    {/* KPulse maintenance mode for prerendered pages; on-demand routes are gated in src/middleware.ts. */}
+    <script is:inline async src="https://status.aikoders.us/maintenance.js" data-project={site.kpulse.project} data-component={site.kpulse.component} data-environment={env.appEnv}></script>
+  </head>
+  <body data-loading={tc('loading')} data-loading-product={tc('loadingProduct')}>
+    <a class="skip" href="#main">{tc('skipToContent')}</a>
+    <Header locale={locale} settings={settings} categories={categories} section={section} activeCategory={activeCategory} />
+    <slot />
+    <Footer locale={locale} settings={settings} categories={categories} />
+    <Loader />
+    <script>
+      import '@/scripts/reveal';
+      import '@/scripts/navigation';
+      import '@/scripts/errors';
+    </script>
+  </body>
+</html>

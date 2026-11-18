@@ -1,0 +1,18 @@
+{
+  "added": "Agregado a tu carrito",
+  "close": "Cerrar carrito",
+  "emptyBody": "Empieza con los suministros que más reordenan los negocios.",
+  "emptyTitle": "Tu carrito está vacío.",
+  "forSaved": "para usar direcciones guardadas.",
+  "freeRemaining": "Agrega {amount} más para entrega local gratis",
+  "freeUnlocked": "Tienes entrega local gratis",
+  "guestCheckout": "Compras como invitado.",
+  "guestNote": "No necesitas cuenta. Compra como invitado.",
+  "popEmpty": "Aún no hay nada aquí. La mayoría de los pedidos toman menos de dos minutos.",
+  "recos": "Lo que suelen agregar antes de pagar",
+  "removeName": "Quitar {name}",
+  "startShopping": "Empezar a comprar",
+  "subtotalDot": "Subtotal ·",
+  "title": "Tu carrito",
+  "view": "Ver carrito"
+}

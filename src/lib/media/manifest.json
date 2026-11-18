@@ -1,0 +1,213 @@
+{
+  "products/box-brand": {
+    "width": 1500,
+    "height": 1500,
+    "widths": [
+      160,
+      320,
+      480,
+      720,
+      960
+    ]
+  },
+  "products/box": {
+    "width": 900,
+    "height": 900,
+    "widths": [
+      160,
+      320,
+      480,
+      720
+    ]
+  },
+  "products/bubble-mailers": {
+    "width": 806,
+    "height": 806,
+    "widths": [
+      160,
+      320,
+      480,
+      720
+    ]
+  },
+  "products/bubble-wrap": {
+    "width": 752,
+    "height": 752,
+    "widths": [
+      160,
+      320,
+      480,
+      720
+    ]
+  },
+  "products/clamshell": {
+    "width": 800,
+    "height": 800,
+    "widths": [
+      160,
+      320,
+      480,
+      720
+    ]
+  },
+  "products/cups": {
+    "width": 773,
+    "height": 773,
+    "widths": [
+      160,
+      320,
+      480,
+      720
+    ]
+  },
+  "products/deli": {
+    "width": 756,
+    "height": 756,
+    "widths": [
+      160,
+      320,
+      480,
+      720
+    ]
+  },
+  "products/gloves": {
+    "width": 735,
+    "height": 735,
+    "widths": [
+      160,
+      320,
+      480,
+      720
+    ]
+  },
+  "products/kraft-paper": {
+    "width": 796,
+    "height": 796,
+    "widths": [
+      160,
+      320,
+      480,
+      720
+    ]
+  },
+  "products/labels": {
+    "width": 811,
+    "height": 811,
+    "widths": [
+      160,
+      320,
+      480,
+      720
+    ]
+  },
+  "products/liners": {
+    "width": 739,
+    "height": 739,
+    "widths": [
+      160,
+      320,
+      480,
+      720
+    ]
+  },
+  "products/mailer-box": {
+    "width": 793,
+    "height": 793,
+    "widths": [
+      160,
+      320,
+      480,
+      720
+    ]
+  },
+  "products/paper-bags": {
+    "width": 788,
+    "height": 788,
+    "widths": [
+      160,
+      320,
+      480,
+      720
+    ]
+  },
+  "products/poly-mailers": {
+    "width": 775,
+    "height": 775,
+    "widths": [
+      160,
+      320,
+      480,
+      720
+    ]
+  },
+  "products/stretch-wrap": {
+    "width": 799,
+    "height": 799,
+    "widths": [
+      160,
+      320,
+      480,
+      720
+    ]
+  },
+  "products/takeout": {
+    "width": 797,
+    "height": 797,
+    "widths": [
+      160,
+      320,
+      480,
+      720
+    ]
+  },
+  "products/tape-gun": {
+    "width": 801,
+    "height": 801,
+    "widths": [
+      160,
+      320,
+      480,
+      720
+    ]
+  },
+  "products/tape": {
+    "width": 737,
+    "height": 737,
+    "widths": [
+      160,
+      320,
+      480,
+      720
+    ]
+  },
+  "products/towels": {
+    "width": 799,
+    "height": 799,
+    "widths": [
+      160,
+      320,
+      480,
+      720
+    ]
+  },
+  "photos/delivery-van": {
+    "width": 1600,
+    "height": 1063,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  },
+  "photos/warehouse-aisle": {
+    "width": 1600,
+    "height": 1063,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ]
+  }
+}

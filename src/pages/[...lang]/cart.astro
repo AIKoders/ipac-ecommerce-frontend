@@ -1,0 +1,29 @@
+---
+import '@/styles/product-card.css';
+import '@/styles/checkout.css';
+import { CartPage } from '@/components/islands/CartPage';
+import { localeFromParam, localeStaticPaths, translator } from '@/i18n';
+import { cart } from '@/i18n/ns/cart';
+import { seo } from '@/i18n/ns/seo';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getApi } from '@/lib/api';
+
+export const getStaticPaths = localeStaticPaths;
+
+/** Candidates for "Often added before checkout"; the island leaves out the ones already in the cart. */
+const RECOMMENDED = ['heavy-duty-tape-dispenser', 'direct-thermal-shipping-labels', 'kraft-paper-roll', 'trash-can-liners'];
+
+const locale = localeFromParam(Astro.params.lang);
+const recommendations = await getApi(locale).catalog.listProducts({ handles: RECOMMENDED });
+const t = translator(cart, locale);
+const ts = translator(seo, locale);
+---
+
+<BaseLayout locale={locale} title={ts('cartTitle')} description={ts('homeDescription')} path="/cart" noindex>
+  <main id="main" class="page">
+    <div class="wrap">
+      <h1 class="hd h2 mb-6">{t('title')}</h1>
+      <CartPage client:load locale={locale} recommendations={recommendations.items} />
+    </div>
+  </main>
+</BaseLayout>

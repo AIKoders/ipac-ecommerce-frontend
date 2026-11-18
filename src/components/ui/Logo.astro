@@ -1,0 +1,18 @@
+---
+import { DOT, LETTERS, LOGO_VIEWBOX, STEM_PATH, STEM_SCALE } from './logo-paths';
+
+interface Props {
+  label: string;
+  class?: string;
+}
+
+const { label, class: className } = Astro.props;
+---
+
+<svg viewBox={LOGO_VIEWBOX} role="img" aria-label={label} class={className}>
+  <g transform={`scale(${STEM_SCALE})`}>
+    <circle cx={DOT.cx} cy={DOT.cy} r={DOT.r} class="fill-green" />
+    <path d={STEM_PATH} class="fill-yellow" />
+  </g>
+  <path d={LETTERS} fill="currentColor" />
+</svg>

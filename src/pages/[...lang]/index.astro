@@ -1,0 +1,81 @@
+---
+import '@/styles/product-card.css';
+import '@/styles/home.css';
+import Aisles from '@/components/home/Aisles.astro';
+import FaqSection from '@/components/home/FaqSection.astro';
+import Hero from '@/components/home/Hero.astro';
+import Recurring from '@/components/home/Recurring.astro';
+import Reviews from '@/components/home/Reviews.astro';
+import Services from '@/components/home/Services.astro';
+import { ProductGrid } from '@/components/islands/ProductGrid';
+import Icon from '@/components/ui/Icon.astro';
+import PostCard from '@/components/ui/PostCard.astro';
+import { localeFromParam, localeStaticPaths, localizePath, translator } from '@/i18n';
+import { blog } from '@/i18n/ns/blog';
+import { common } from '@/i18n/ns/common';
+import { home } from '@/i18n/ns/home';
+import { seo } from '@/i18n/ns/seo';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getApi } from '@/lib/api';
+import { faqPage } from '@/lib/seo';
+
+export const getStaticPaths = localeStaticPaths;
+
+const locale = localeFromParam(Astro.params.lang);
+const api = getApi(locale);
+const [categories, featured, posts, faqs] = await Promise.all([api.catalog.listCategories(), api.catalog.listProducts({ featured: true }), api.content.listPosts(), api.content.listFaqs()]);
+const t = translator(home, locale);
+const tc = translator(common, locale);
+const tb = translator(blog, locale);
+const ts = translator(seo, locale);
+const tape = [t('tape1'), tc('reorderOneClick'), tc('localDelivery'), t('tape4')];
+---
+
+<BaseLayout locale={locale} title={ts('homeTitle')} description={ts('homeDescription')} path="/" ogKey="home" graph={[faqPage(faqs)]}>
+  <main id="main">
+    <Hero locale={locale} categories={categories} />
+    <Aisles locale={locale} categories={categories} />
+
+    <section class="sec paper" id="best">
+      <div class="wrap">
+        <div class="sec-h rv">
+          <div>
+            <span class="eyebrow">{t('bestEyebrow')}</span>
+            <h2 class="hd">{t('bestTitle')}</h2>
+          </div>
+          <a class="lnk" href={localizePath(locale, '/shop')}>{t('bestAll')}<Icon name="arrowRight" /></a>
+        </div>
+        <div class="rv">
+          <ProductGrid client:visible locale={locale} products={featured.items} layout="row" />
+        </div>
+      </div>
+    </section>
+
+    <div class="tapediv" aria-hidden="true">
+      <div class="mq">
+        {[0, 1].map(() => <span>{[...tape, ...tape].map((item) => <Fragment>{item}<i /></Fragment>)}</span>)}
+      </div>
+    </div>
+
+    <Recurring locale={locale} />
+    <Services locale={locale} />
+    <Reviews locale={locale} />
+
+    <section class="sec">
+      <div class="wrap">
+        <div class="sec-h rv">
+          <div>
+            <span class="eyebrow">{t('blogEyebrow')}</span>
+            <h2 class="hd">{tb('title')}</h2>
+          </div>
+          <a class="lnk" href={localizePath(locale, '/blog')}>{t('blogAll')}<Icon name="arrowRight" /></a>
+        </div>
+        <div class="posts">
+          {posts.slice(0, 3).map((post) => <PostCard locale={locale} post={post} />)}
+        </div>
+      </div>
+    </section>
+
+    <FaqSection locale={locale} faqs={faqs} />
+  </main>
+</BaseLayout>

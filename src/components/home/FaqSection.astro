@@ -1,0 +1,36 @@
+---
+import { localizePath, translator, type Locale } from '@/i18n';
+import { common } from '@/i18n/ns/common';
+import { home } from '@/i18n/ns/home';
+import type { Faq } from '@/lib/api/types';
+
+interface Props {
+  locale: Locale;
+  faqs: Faq[];
+}
+
+const { locale, faqs } = Astro.props;
+const t = translator(home, locale);
+const tc = translator(common, locale);
+---
+
+<section class="sec paper" id="faq">
+  <div class="wrap faq">
+    <div class="rv flex flex-col items-start gap-[18px]">
+      <span class="eyebrow">{tc('faq')}</span>
+      <h2 class="hd h2">{t('faqTitle')}</h2>
+      <p class="mut max-w-[420px]">{t('faqLead')}</p>
+      <a class="btn" href={localizePath(locale, '/contact')}>{t('faqCta')}</a>
+    </div>
+    <div class="rv">
+      {
+        faqs.map((faq, index) => (
+          <details class="fq" name="faq" open={index === 0}>
+            <summary><span>{faq.question}</span><span class="pm" aria-hidden="true">+</span></summary>
+            <p>{faq.answer}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

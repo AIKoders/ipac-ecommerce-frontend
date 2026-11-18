@@ -1,0 +1,15 @@
+{
+  "againBody": "Guarda este pedido en una cuenta gratis y reordénalo con un clic, o ponlo en calendario.",
+  "againTitle": "¿Lo quieres otra vez el próximo mes?",
+  "createAccount": "Crear cuenta y guardar pedido",
+  "estimated": "Entrega estimada",
+  "manageRecurring": "Administrar pedidos recurrentes",
+  "notFoundBody": "Revisa el enlace de tu recibo o vuelve a la tienda.",
+  "notFoundTitle": "No encontramos ese pedido.",
+  "recurringNote": "Tu entrega recurrente quedó programada. Adminístrala, sáltala o páusala desde tu cuenta.",
+  "thanks": "Gracias por tu pedido. Enviaremos el recibo a",
+  "thanksTail": "y te avisaremos por mensaje cuando el camión esté en tu calle.",
+  "title": "Empacado, sellado y en camino.",
+  "whatYouOrdered": "Lo que pediste",
+  "yourEmail": "tu correo"
+}

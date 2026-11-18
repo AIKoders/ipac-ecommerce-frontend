@@ -1,0 +1,31 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import { translator, type Locale } from '@/i18n';
+import { common } from '@/i18n/ns/common';
+import type { StoreSettings } from '@/lib/api/types';
+
+interface Props {
+  locale: Locale;
+  social: StoreSettings['social'];
+  class?: string;
+}
+
+const { locale, social, class: className } = Astro.props;
+const t = translator(common, locale);
+const links = [
+  { name: 'facebook' as const, href: social.facebook, label: t('facebook') },
+  { name: 'instagram' as const, href: social.instagram, label: t('instagram') },
+].filter((link) => link.href);
+---
+
+{
+  links.length > 0 && (
+    <span class:list={['u-soc', className]}>
+      {links.map((link) => (
+        <a class="soc" href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label}>
+          <Icon name={link.name} />
+        </a>
+      ))}
+    </span>
+  )
+}

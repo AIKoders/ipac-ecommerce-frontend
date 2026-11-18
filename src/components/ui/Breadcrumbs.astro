@@ -1,0 +1,24 @@
+---
+import { translator, type Locale } from '@/i18n';
+import { common } from '@/i18n/ns/common';
+
+/** The trail above a page's title. The last item is the current page and is not a link. */
+interface Props {
+  locale: Locale;
+  items: { label: string; href?: string }[];
+}
+
+const { locale, items } = Astro.props;
+const t = translator(common, locale);
+---
+
+<nav class="crumbs" aria-label={t('breadcrumb')}>
+  {
+    items.map((item, index) => (
+      <Fragment>
+        {index > 0 && <span aria-hidden="true">/</span>}
+        {item.href ? <a href={item.href}>{item.label}</a> : <span aria-current="page">{item.label}</span>}
+      </Fragment>
+    ))
+  }
+</nav>

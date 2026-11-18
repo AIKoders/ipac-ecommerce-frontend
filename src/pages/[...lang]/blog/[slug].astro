@@ -1,0 +1,79 @@
+---
+import '@/styles/content.css';
+import '@/styles/home.css';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import Picture from '@/components/ui/Picture.astro';
+import PostCard, { TONE_CLASS } from '@/components/ui/PostCard.astro';
+import { defaultLocale, localeFromParam, localeStaticPaths, localizePath, translator } from '@/i18n';
+import { blog } from '@/i18n/ns/blog';
+import { common } from '@/i18n/ns/common';
+import { seo } from '@/i18n/ns/seo';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getApi } from '@/lib/api';
+import { formatDate } from '@/lib/format';
+import { absoluteUrl, blogPosting, breadcrumbList } from '@/lib/seo';
+
+/** Every post in every locale; slugs are shared, which is what lets hreflang pair the two versions. */
+export async function getStaticPaths() {
+  const posts = await getApi(defaultLocale).content.listPosts();
+  return localeStaticPaths().flatMap(({ params }) => posts.map((post) => ({ params: { ...params, slug: post.slug } })));
+}
+
+const locale = localeFromParam(Astro.params.lang);
+const api = getApi(locale);
+const [post, posts] = await Promise.all([api.content.getPost(Astro.params.slug ?? ''), api.content.listPosts()]);
+const more = posts.filter((other) => other.slug !== post.slug).slice(0, 3);
+const t = translator(blog, locale);
+const tc = translator(common, locale);
+const ts = translator(seo, locale);
+const path = `/blog/${post.slug}`;
+// `publishedAt` is a calendar day. Parsed as an instant it is UTC midnight, which a build machine west of UTC would print as the day before.
+const [year = 1970, month = 1, day = 1] = post.publishedAt.slice(0, 10).split('-').map(Number);
+const published = formatDate(new Date(year, month - 1, day), locale);
+const graph = [
+  breadcrumbList([
+    { name: tc('home'), url: absoluteUrl(locale, '/') },
+    { name: tc('blog'), url: absoluteUrl(locale, '/blog') },
+    { name: post.title, url: absoluteUrl(locale, path) },
+  ]),
+  blogPosting(locale, post, post.body),
+];
+---
+
+<BaseLayout locale={locale} title={ts('postTitle', { title: post.title })} description={post.excerpt} path={path} ogKey={`blog/${post.slug}`} ogType="article" section="blog" graph={graph}>
+  <main id="main" class="page">
+    <div class="wrap">
+      <Breadcrumbs
+        locale={locale}
+        items={[{ label: tc('home'), href: localizePath(locale, '/') }, { label: tc('blog'), href: localizePath(locale, '/blog') }, { label: post.tag }]}
+      />
+      <article class="art">
+        <span class="eyebrow">{post.tag} · {t('minRead', { minutes: post.readMinutes })}</span>
+        <h1 class="hd">{post.title}</h1>
+        <time class="fine" datetime={post.publishedAt}>{t('published', { date: published })}</time>
+        <span class:list={['post-img', 'cover', TONE_CLASS[post.tone]]}>
+          <Picture media={post.image} alt="" sizes="(max-width: 784px) 34vw, 245px" eager />
+        </span>
+        {post.body.map((paragraph) => <p>{paragraph}</p>)}
+        <div class="quote text-[16px]">
+          <b class="hd text-[20px]">{t('ctaTitle')}</b>
+          <span class="mut">{t('ctaBody')}</span>
+          <div class="row-c">
+            <a class="btn" href={localizePath(locale, '/contact?topic=consultation')}>{t('ctaButton')}</a>
+            <a class="btn o" href={localizePath(locale, '/shop')}>{tc('shopSupplies')}</a>
+          </div>
+        </div>
+      </article>
+      {
+        more.length > 0 && (
+          <section class="mt-[72px]">
+            <h2 class="hd mb-5 text-[28px]">{t('keepReading')}</h2>
+            <div class="posts">
+              {more.map((other) => <PostCard locale={locale} post={other} compact reveal={false} />)}
+            </div>
+          </section>
+        )
+      }
+    </div>
+  </main>
+</BaseLayout>

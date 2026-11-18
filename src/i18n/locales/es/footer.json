@@ -1,0 +1,12 @@
+{
+  "company": "Empresa",
+  "emailAddress": "Correo electrónico",
+  "invalidEmail": "Escribe un correo electrónico válido.",
+  "join": "Unirme",
+  "joined": "Ya estás en la lista.",
+  "legal": "© {year} IPAC Industries LLC",
+  "newsBody": "Ofertas y listas de temporada, más o menos una vez al mes.",
+  "rights": "Todos los derechos reservados.",
+  "sampleNote": "Tienda de demostración. El catálogo, los precios, las políticas y las reseñas son contenido de ejemplo.",
+  "tagline": "Suministros para negocios en el suroeste de Florida, a domicilio."
+}

@@ -1,0 +1,34 @@
+{
+  "name": "ipac",
+  "legalName": "IPAC Industries LLC",
+  "currency": "USD",
+  "serviceArea": {
+    "en": "Southwest Florida",
+    "es": "el suroeste de Florida"
+  },
+  "freeDeliveryThreshold": 15000,
+  "taxRate": 0.065,
+  "shippingRates": {
+    "local_delivery": 1200,
+    "pickup": 0,
+    "shipping": 1800
+  },
+  "recurring": {
+    "discountPercent": 5,
+    "intervalWeeks": [
+      2,
+      4,
+      8
+    ],
+    "defaultIntervalWeeks": 4
+  },
+  "contact": {
+    "phone": null,
+    "email": null,
+    "address": null
+  },
+  "social": {
+    "facebook": "https://www.facebook.com/",
+    "instagram": "https://www.instagram.com/"
+  }
+}

@@ -1,0 +1,56 @@
+---
+import '@/styles/product-card.css';
+import '@/styles/shop.css';
+import { ShopBrowser } from '@/components/islands/ShopBrowser';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import { localizePath, translator, type Locale } from '@/i18n';
+import { common } from '@/i18n/ns/common';
+import { seo } from '@/i18n/ns/seo';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getApi } from '@/lib/api';
+import type { Category } from '@/lib/api/types';
+import { absoluteUrl, breadcrumbList, itemList } from '@/lib/seo';
+
+/** The catalog listing page, for all supplies or for one aisle. */
+interface Props {
+  locale: Locale;
+  category: Category | null;
+}
+
+const { locale, category } = Astro.props;
+const api = getApi(locale);
+const [categories, products] = await Promise.all([api.catalog.listCategories(), api.catalog.listProducts({ category: category?.handle })]);
+const tc = translator(common, locale);
+const ts = translator(seo, locale);
+const path = category ? `/shop/${category.handle}` : '/shop';
+const crumbs = [
+  { label: tc('home'), href: localizePath(locale, '/') },
+  ...(category ? [{ label: tc('shop'), href: localizePath(locale, '/shop') }, { label: category.name }] : [{ label: tc('shop') }]),
+];
+const graph = [
+  breadcrumbList([
+    { name: tc('home'), url: absoluteUrl(locale, '/') },
+    { name: tc('shop'), url: absoluteUrl(locale, '/shop') },
+    ...(category ? [{ name: category.name, url: absoluteUrl(locale, path) }] : []),
+  ]),
+  { '@type': 'CollectionPage', '@id': `${absoluteUrl(locale, path)}#collection`, name: category?.name ?? tc('allSupplies'), url: absoluteUrl(locale, path), mainEntity: itemList(locale, products.items) },
+];
+---
+
+<BaseLayout
+  locale={locale}
+  title={category ? ts('categoryTitle', { name: category.name }) : ts('shopTitle')}
+  description={category ? ts('categoryDescription', { description: category.description }) : ts('shopDescription')}
+  path={path}
+  ogKey={category ? `shop/${category.handle}` : 'shop'}
+  graph={graph}
+  section="shop"
+  activeCategory={category?.handle}
+>
+  <main id="main" class="page">
+    <div class="wrap">
+      <Breadcrumbs locale={locale} items={crumbs} />
+      <ShopBrowser client:load locale={locale} categories={categories} category={category} initial={products} />
+    </div>
+  </main>
+</BaseLayout>

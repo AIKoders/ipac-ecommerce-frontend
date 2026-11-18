@@ -1,0 +1,68 @@
+---
+import { Newsletter } from '@/components/islands/Newsletter';
+import Logo from '@/components/ui/Logo.astro';
+import { LETTERS, STEM_PATH, STEM_SCALE } from '@/components/ui/logo-paths';
+import { localizePath, translator, type Locale } from '@/i18n';
+import { common } from '@/i18n/ns/common';
+import { footer } from '@/i18n/ns/footer';
+import type { Category, StoreSettings } from '@/lib/api/types';
+import SocialLinks from './SocialLinks.astro';
+
+interface Props {
+  locale: Locale;
+  settings: StoreSettings;
+  categories: Category[];
+}
+
+const { locale, settings, categories } = Astro.props;
+const t = translator(footer, locale);
+const tc = translator(common, locale);
+const to = (path: string) => localizePath(locale, path);
+const { address, phone } = settings.contact;
+const legal = [t('legal', { year: new Date().getFullYear() }), address && `${address.line1}, ${address.city}, ${address.region} ${address.postalCode}`, phone].filter(Boolean).join(' · ');
+---
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-g">
+      <div class="flex flex-col items-start gap-3">
+        <Logo label={tc('brand')} class="lg text-white" />
+        <span>{t('tagline')}</span>
+        <SocialLinks locale={locale} social={settings.social} />
+      </div>
+      <div>
+        <h2 class="foot-h">{tc('shop')}</h2>
+        {categories.map((category) => <a class="fl" href={to(`/shop/${category.handle}`)}>{category.name}</a>)}
+      </div>
+      <div>
+        <h2 class="foot-h">{t('company')}</h2>
+        <a class="fl" href={to('/about')}>{tc('about')}</a>
+        <a class="fl" href={`${to('/')}#services`}>{tc('services')}</a>
+        <a class="fl" href={to('/blog')}>{tc('blog')}</a>
+        <a class="fl" href={`${to('/')}#faq`}>{tc('faq')}</a>
+        <a class="fl" href={to('/contact')}>{tc('contact')}</a>
+      </div>
+      <div>
+        <h2 class="foot-h">{tc('account')}</h2>
+        <a class="fl" href={`${to('/account')}?tab=orders`}>{tc('orders')}</a>
+        <a class="fl" href={`${to('/account')}?tab=recurring`}>{tc('recurringOrders')}</a>
+        <a class="fl" href={to('/cart')}>{tc('cart')}</a>
+      </div>
+      <div class="relative">
+        <h2 class="foot-h">{tc('restockReminders')}</h2>
+        <span>{t('newsBody')}</span>
+        <Newsletter client:visible locale={locale} />
+      </div>
+    </div>
+    <div class="foot-b">
+      <span>{legal}</span>
+      <span>{t('sampleNote')}</span>
+    </div>
+  </div>
+  <div class="ghost" aria-hidden="true">
+    <svg viewBox="0 40 199.4 54" preserveAspectRatio="xMidYMin slice">
+      <g transform={`scale(${STEM_SCALE})`}><path d={STEM_PATH} class="fill-white"></path></g>
+      <path d={LETTERS} class="fill-white"></path>
+    </svg>
+  </div>
+</footer>

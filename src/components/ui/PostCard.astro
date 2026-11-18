@@ -1,0 +1,30 @@
+---
+import { localizePath, translator, type Locale } from '@/i18n';
+import { blog } from '@/i18n/ns/blog';
+import type { PostSummary, PostTone } from '@/lib/api/types';
+import Picture from './Picture.astro';
+
+interface Props {
+  locale: Locale;
+  post: PostSummary;
+  /** Hides the excerpt, for the "keep reading" row under an article. */
+  compact?: boolean;
+  reveal?: boolean;
+  /** Heading level of the title, to keep the page outline in order. */
+  heading?: 'h2' | 'h3';
+}
+
+export const TONE_CLASS: Record<PostTone, string> = { tint: 'tn', yellow: 'ty', paper: 'tp', mint: 'tg', navy: 'tnv' };
+
+const { locale, post, compact = false, reveal = true, heading: Heading = 'h3' } = Astro.props;
+const t = translator(blog, locale);
+---
+
+<a class:list={['post', { rv: reveal }]} href={localizePath(locale, `/blog/${post.slug}`)}>
+  <span class:list={['post-img', TONE_CLASS[post.tone]]}>
+    <Picture media={post.image} alt="" sizes="(max-width: 900px) 56vw, 230px" />
+  </span>
+  <span class="eyebrow">{post.tag} · {t('minRead', { minutes: post.readMinutes })}</span>
+  <Heading class="hd post-t">{post.title}</Heading>
+  {!compact && <span class="mut">{post.excerpt}</span>}
+</a>
