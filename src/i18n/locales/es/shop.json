@@ -1,0 +1,23 @@
+{
+  "aisle": "Pasillo",
+  "askItem": "Pedir un artículo",
+  "band40to60": "$40 a $60",
+  "bandAny": "Cualquier precio",
+  "bandOver60": "Más de $60",
+  "bandUnder40": "Menos de $40",
+  "clearFilters": "Quitar filtros",
+  "clearSearch": "Borrar búsqueda",
+  "emptyBody": "Manejamos mucho más de lo que aparece en línea. Dinos qué buscas y lo conseguimos.",
+  "emptyTitle": "Todavía no hay coincidencias.",
+  "filters": "Filtros",
+  "perCaseNote": "· precios por caja",
+  "pricePerCase": "Precio por caja",
+  "quoteBody": "Los pedidos por volumen, personalizados e impresos se cotizan aparte.",
+  "quoteTitle": "¿Necesitas una tarima, o tu logo impreso?",
+  "resultsFor": "Resultados para \"{query}\"",
+  "sortBy": "Ordenar por",
+  "sortFeatured": "Orden: Destacados",
+  "sortHigh": "Precio: mayor a menor",
+  "sortLow": "Precio: menor a mayor",
+  "sortTop": "Mejor calificados"
+}

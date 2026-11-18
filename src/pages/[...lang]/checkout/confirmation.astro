@@ -1,0 +1,20 @@
+---
+import '@/styles/checkout.css';
+import { ConfirmationPage } from '@/components/islands/ConfirmationPage';
+import { localeFromParam, localeStaticPaths, translator } from '@/i18n';
+import { seo } from '@/i18n/ns/seo';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+export const getStaticPaths = localeStaticPaths;
+
+const locale = localeFromParam(Astro.params.lang);
+const ts = translator(seo, locale);
+---
+
+<BaseLayout locale={locale} title={ts('confirmTitle')} description={ts('homeDescription')} path="/checkout/confirmation" noindex>
+  <main id="main" class="page">
+    <div class="wrap">
+      <ConfirmationPage client:load locale={locale} />
+    </div>
+  </main>
+</BaseLayout>

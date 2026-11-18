@@ -1,0 +1,147 @@
+---
+import { HeaderActions } from '@/components/islands/HeaderActions';
+import Icon from '@/components/ui/Icon.astro';
+import Logo from '@/components/ui/Logo.astro';
+import { localizePath, translator, type Locale } from '@/i18n';
+import { common } from '@/i18n/ns/common';
+import { header } from '@/i18n/ns/header';
+import type { Category, StoreSettings } from '@/lib/api/types';
+import { formatMoney } from '@/lib/format';
+import LanguageSwitch from './LanguageSwitch.astro';
+import SocialLinks from './SocialLinks.astro';
+
+export type HeaderSection = 'shop' | 'about' | 'blog' | 'contact' | null;
+
+interface Props {
+  locale: Locale;
+  settings: StoreSettings;
+  categories: Category[];
+  /** Which top-level area the page belongs to, for the active states. */
+  section?: HeaderSection;
+  /** Handle of the category being browsed, underlined in the aisle bar. */
+  activeCategory?: string;
+}
+
+const { locale, settings, categories, section = null, activeCategory } = Astro.props;
+const t = translator(header, locale);
+const tc = translator(common, locale);
+const to = (path: string) => localizePath(locale, path);
+const threshold = formatMoney(settings.freeDeliveryThreshold, locale).replace(/[.,]00$/, '');
+const phone = settings.contact.phone;
+const pages = [
+  { href: `${to('/')}#services`, label: tc('services'), key: 'services' },
+  { href: to('/about'), label: tc('about'), key: 'about' },
+  { href: to('/blog'), label: tc('blog'), key: 'blog' },
+  { href: to('/contact'), label: tc('contact'), key: 'contact' },
+];
+---
+
+<div class="util">
+  <div class="wrap">
+    <span class="u-msg">
+      <Icon name="truck" />
+      <span>{t('freeDeliveryOver')} <b>{threshold}</b></span>
+    </span>
+    <div class="u-r">
+      <span class="u-x"><Icon name="clock" />{t('hours')}</span>
+      {
+        phone && (
+          <a class="u-x" href={`tel:${phone.replace(/[^\d+]/g, '')}`}>
+            <Icon name="phone" />
+            <b>{phone}</b>
+          </a>
+        )
+      }
+      <SocialLinks locale={locale} social={settings.social} class="u-x" />
+      <LanguageSwitch locale={locale} />
+    </div>
+  </div>
+</div>
+
+<header class="nav" data-header>
+  <div class="wrap nav-in">
+    <a class="logo" href={to('/')} aria-label={t('homeAria')}>
+      <Logo label={tc('brand')} class="text-white" />
+    </a>
+
+    <button class:list={['shopbtn', { on: section === 'shop' }]} type="button" aria-expanded="false" aria-controls="mega-menu" data-panel-toggle="mega" data-active={section === 'shop' ? '' : undefined}>
+      <Icon name="grid" />
+      <span>{tc('shop')}</span>
+      <Icon name="chevronDown" />
+    </button>
+
+    <form class="search" role="search" action={to('/shop')} method="get">
+      <label class="sr" for="navq">{t('searchLabel')}</label>
+      <span class="s-ic"><Icon name="search" /></span>
+      <input id="navq" name="q" type="search" placeholder={t('searchPlaceholder')} autocomplete="off" enterkeyhint="search" />
+      <button type="submit">{tc('search')}</button>
+    </form>
+
+    <div class="nact">
+      <HeaderActions client:load locale={locale} />
+    </div>
+
+    <div class="pop mega" id="mega-menu" data-panel="mega" hidden>
+      {
+        categories.map((category) => (
+          <a class="mcol" href={to(`/shop/${category.handle}`)}>
+            <img src={category.image.url} srcset={category.image.srcset} sizes="160px" width={category.image.width} height={category.image.height} alt="" loading="lazy" decoding="async" />
+            <b>{category.name}</b>
+            <small>{category.description}</small>
+          </a>
+        ))
+      }
+      <div class="mpromo">
+        <div class="flex flex-col gap-1.5">
+          <span class="eyebrow text-yellow">{t('megaKicker')}</span>
+          <b class="hd text-[22px]">{t('megaTitle')}</b>
+        </div>
+        <div class="flex flex-col gap-2">
+          <a class="btn y sm" href={to('/contact')}>{tc('requestQuote')}</a>
+          <a class="btn ow sm" href={to('/shop')}>{t('browseAll')}</a>
+        </div>
+      </div>
+      <div class="mfoot">
+        {pages.slice(0, 3).map((page) => <a class="lnk" href={page.href}>{page.label}</a>)}
+        <a class="lnk" href={`${to('/')}#faq`}>{tc('faq')}</a>
+        <a class="lnk" href={to('/contact')}>{tc('contact')}</a>
+      </div>
+    </div>
+
+    <nav class="pop mobmenu" id="mobile-menu" data-panel="mobile" aria-label={t('menu')} hidden>
+      <a class="mi" href={to('/shop')}>{t('shopAll')}</a>
+      {categories.map((category) => <a class="mi pl-7 font-normal" href={to(`/shop/${category.handle}`)}>{category.name}</a>)}
+      {pages.map((page) => <a class="mi" href={page.href}>{page.label}</a>)}
+      <a class="mi" href={to('/account')}>{t('accountAndOrders')}</a>
+      <div class="mob-b">
+        <LanguageSwitch locale={locale} size="long" class="lg" />
+        <SocialLinks locale={locale} social={settings.social} />
+      </div>
+    </nav>
+  </div>
+</header>
+
+<nav class="subnav" aria-label={t('aisles')}>
+  <div class="wrap sub-in">
+    {
+      categories.map((category) => (
+        <a class:list={['sl', { on: activeCategory === category.handle }]} href={to(`/shop/${category.handle}`)} aria-current={activeCategory === category.handle ? 'page' : undefined}>
+          {category.name}
+        </a>
+      ))
+    }
+    <span class="sub-sp"></span>
+    {
+      pages.map((page) => (
+        <a class:list={['sl', { on: section === page.key }]} href={page.href} aria-current={section === page.key ? 'page' : undefined}>
+          {page.label}
+        </a>
+      ))
+    }
+    <a class="sub-q" href={to('/contact')}>{tc('requestQuote')}<Icon name="arrowRight" /></a>
+  </div>
+</nav>
+
+<script>
+  import '@/scripts/header';
+</script>

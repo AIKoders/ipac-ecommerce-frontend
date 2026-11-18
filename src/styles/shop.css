@@ -1,0 +1,98 @@
+/* Catalog listing: filters sidebar and results. */
+@layer theme, base, components, utilities;
+
+@layer components {
+  .shop {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    align-items: flex-start;
+  }
+
+  .side {
+    flex: 1 1 220px;
+    max-width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    position: sticky;
+    top: 96px;
+  }
+
+  .main {
+    flex: 999 1 560px;
+    min-width: 0;
+  }
+
+  .flist {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .fbtn {
+    min-height: 44px;
+    padding: 0 12px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .fbtn small {
+    font-size: 13px;
+    color: var(--color-slate);
+  }
+
+  .fbtn:hover {
+    background: var(--color-tint);
+  }
+
+  .fbtn.on {
+    background: var(--color-navy);
+    color: var(--color-white);
+  }
+
+  .fbtn.on small {
+    color: var(--color-mist);
+  }
+
+  .side-h {
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--color-slate);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  /* While a filter change is in flight the current results stay, dimmed. */
+  .pgrid.is-busy {
+    opacity: .55;
+    transition: opacity .15s;
+  }
+
+  @media (max-width: 900px) {
+    .side {
+      max-width: none;
+      position: static;
+      flex-basis: 100%;
+    }
+
+    .flist {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .fbtn {
+      width: auto;
+      border: 1px solid var(--color-line);
+    }
+  }
+}

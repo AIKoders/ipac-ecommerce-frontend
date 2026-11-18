@@ -1,0 +1,55 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import Picture from '@/components/ui/Picture.astro';
+import { localizePath, translator, type Locale } from '@/i18n';
+import { common } from '@/i18n/ns/common';
+import { home } from '@/i18n/ns/home';
+import { localMedia } from '@/lib/media';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = translator(home, locale);
+const tc = translator(common, locale);
+const contact = localizePath(locale, '/contact');
+const cards = [
+  { icon: 'chat' as const, title: t('svc1Title'), body: t('svc1Body'), cta: t('svc1Cta') },
+  { icon: 'printer' as const, title: t('svc2Title'), body: t('svc2Body'), cta: tc('requestQuote') },
+  { icon: 'tag' as const, title: t('svc3Title'), body: t('svc3Body'), cta: t('svc3Cta') },
+];
+---
+
+<section class="sec" id="services">
+  <div class="wrap">
+    <div class="sec-h rv">
+      <div>
+        <span class="eyebrow">{tc('services')}</span>
+        <h2 class="hd">{t('servicesTitle')}</h2>
+      </div>
+      <p>{t('servicesLead')}</p>
+    </div>
+    <div class="svc">
+      <div class="sv big rv">
+        <Picture media={localMedia('photos', 'delivery-van', t('vanAlt'))} sizes="(max-width: 900px) 100vw, 620px" />
+        <div>
+          <span class="eyebrow text-yellow">{tc('localDelivery')}</span>
+          <h3 class="hd text-[32px]">{t('deliveryTitle')}</h3>
+          <p class="text-mist">{t('deliveryBody')}</p>
+          <a class="btn y" href={localizePath(locale, '/shop')}>{t('deliveryCta')}</a>
+        </div>
+      </div>
+      {
+        cards.map((card) => (
+          <div class="sv rv">
+            <span class="ico"><Icon name={card.icon} /></span>
+            <h3 class="hd">{card.title}</h3>
+            <p class="mut">{card.body}</p>
+            <a class="lnk" href={contact}>{card.cta}<Icon name="arrowRight" /></a>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

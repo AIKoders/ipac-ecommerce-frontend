@@ -1,0 +1,149 @@
+---
+import '@/styles/product-card.css';
+import '@/styles/product.css';
+import { FrequentlyBought } from '@/components/islands/FrequentlyBought';
+import { ProductGrid } from '@/components/islands/ProductGrid';
+import { BuyBar, BuyPanel, PurchaseOptions } from '@/components/islands/ProductPurchase';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Picture from '@/components/ui/Picture.astro';
+import { defaultLocale, localeFromParam, locales, localizePath, translator } from '@/i18n';
+import { common } from '@/i18n/ns/common';
+import { product as productMessages } from '@/i18n/ns/product';
+import { seo } from '@/i18n/ns/seo';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getApi } from '@/lib/api';
+import { formatMoney } from '@/lib/format';
+import { absoluteUrl, breadcrumbList, productNode } from '@/lib/seo';
+
+export async function getStaticPaths() {
+  const { items } = await getApi(defaultLocale).catalog.listProducts({ limit: 200 });
+  return locales.flatMap((locale) => items.map((item) => ({ params: { lang: locale === defaultLocale ? undefined : locale, handle: item.handle } })));
+}
+
+const locale = localeFromParam(Astro.params.lang);
+const api = getApi(locale);
+const [product, settings] = await Promise.all([api.catalog.getProduct(Astro.params.handle), api.store.getSettings()]);
+const t = translator(productMessages, locale);
+const tc = translator(common, locale);
+const ts = translator(seo, locale);
+const to = (path: string) => localizePath(locale, path);
+const path = `/products/${product.handle}`;
+const rating = product.rating.average.toFixed(1);
+const starWidth = `width: ${(product.rating.average / 5) * 100}%`;
+const specifications = [{ label: t('sku'), value: product.sku }, { label: t('soldAs'), value: product.unitLabel }, ...product.specifications];
+// Islands serialize their props into the page: give each only what it renders.
+const { features: _features, specifications: _specifications, variants, optionName, frequentlyBoughtWith, related, ...summary } = product;
+const purchase = { locale, product: { handle: product.handle, title: product.title, unitLabel: product.unitLabel, image: product.image, price: product.price, optionName, variants }, recurring: settings.recurring };
+/** Sample reviews of the prototype, shown until the catalog has real ones. */
+const reviews = [
+  { title: t('rev1Title'), body: t('rev1Body'), width: 'width: 100%' },
+  { title: t('rev2Title'), body: t('rev2Body'), width: 'width: 80%' },
+];
+const crumbs = [
+  { label: tc('home'), href: to('/') },
+  { label: tc('shop'), href: to('/shop') },
+  { label: product.category.name, href: to(`/shop/${product.category.handle}`) },
+  { label: product.title },
+];
+const graph = [
+  breadcrumbList([
+    { name: tc('home'), url: absoluteUrl(locale, '/') },
+    { name: tc('shop'), url: absoluteUrl(locale, '/shop') },
+    { name: product.category.name, url: absoluteUrl(locale, `/shop/${product.category.handle}`) },
+    { name: product.title, url: absoluteUrl(locale, path) },
+  ]),
+  productNode(locale, product),
+];
+---
+
+<BaseLayout
+  locale={locale}
+  title={ts('productTitle', { name: product.title })}
+  description={ts('productDescription', { summary: product.summary, unit: product.unitLabel, price: formatMoney(product.bulkPrice, locale) })}
+  path={path}
+  ogKey={`products/${product.handle}`}
+  ogType="product"
+  graph={graph}
+  section="shop"
+  activeCategory={product.category.handle}
+>
+  <main id="main" class="page pb-0">
+    <div class="wrap">
+      <Breadcrumbs locale={locale} items={crumbs} />
+
+      <div class="pdp">
+        <div class="gal">
+          <Picture media={product.image} sizes="(max-width: 900px) 82vw, 460px" priority />
+        </div>
+
+        <div class="info">
+          <span class="eyebrow">{product.category.name}</span>
+          <h1 class="hd">{product.title}</h1>
+          <div class="rate">
+            <span class="stars" aria-hidden="true">★★★★★<i style={starWidth}>★★★★★</i></span>
+            <span class="unit">{rating} · {product.rating.count} {t('reviewsSku')} {product.sku}</span>
+          </div>
+          <p class="mut text-[18px]">{product.summary}</p>
+          <PurchaseOptions client:load {...purchase} />
+          <ul class="bul">
+            {product.features.map((feature) => <li><Icon name="check" /><span>{feature}</span></li>)}
+          </ul>
+        </div>
+
+        <BuyPanel client:load {...purchase} />
+      </div>
+
+      <div class="dgrid">
+        <section>
+          <h2 class="hd mb-4 text-[28px]">{t('specs')}</h2>
+          <dl class="spec">
+            {specifications.map((spec) => <div><dt>{spec.label}</dt><dd>{spec.value}</dd></div>)}
+          </dl>
+        </section>
+        <section>
+          <h2 class="hd mb-4 text-[28px]">{t('reviews')}</h2>
+          <div class="stack">
+            <div class="row-c">
+              <span class="price text-[44px]">{rating}</span>
+              <div>
+                <span class="stars text-[20px]" aria-hidden="true">★★★★★<i style={starWidth}>★★★★★</i></span>
+                <div class="fine">{product.rating.count} {t('ratingsSample')}</div>
+              </div>
+            </div>
+            {
+              reviews.map((review) => (
+                <div class="rev">
+                  <span class="stars self-start" aria-hidden="true">★★★★★<i style={review.width}>★★★★★</i></span>
+                  <b>{review.title}</b>
+                  <span class="mut">{review.body}</span>
+                  <span class="fine">{t('revMeta')}</span>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+      </div>
+
+      {
+        frequentlyBoughtWith.length > 0 && (
+          <section class="mt-14">
+            <h2 class="hd text-[28px]">{t('fbtTitle')}</h2>
+            <FrequentlyBought client:visible locale={locale} products={[summary, ...frequentlyBoughtWith]} />
+          </section>
+        )
+      }
+
+      {
+        related.length > 0 && (
+          <section class="mt-14">
+            <h2 class="hd mb-5 text-[28px]">{t('related')}</h2>
+            <ProductGrid client:visible locale={locale} products={related} />
+          </section>
+        )
+      }
+    </div>
+
+    <BuyBar client:idle {...purchase} />
+  </main>
+</BaseLayout>

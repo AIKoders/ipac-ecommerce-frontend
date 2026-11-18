@@ -1,0 +1,61 @@
+---
+import '@/styles/hero.css';
+import Icon from '@/components/ui/Icon.astro';
+import { INLINE_SCRIPTS } from '@/config/inline-scripts';
+import { localizePath, translator, type Locale } from '@/i18n';
+import { common } from '@/i18n/ns/common';
+import { home } from '@/i18n/ns/home';
+import type { Category } from '@/lib/api/types';
+import HeroScene from './HeroScene.astro';
+
+interface Props {
+  locale: Locale;
+  categories: Category[];
+}
+
+const { locale, categories } = Astro.props;
+const t = translator(home, locale);
+const tc = translator(common, locale);
+const to = (path: string) => localizePath(locale, path);
+const chips = (['chip1', 'chip2', 'chip3', 'chip4', 'chip5'] as const).map((key, index) => ({ label: t(key), category: categories[index] })).filter((chip) => chip.category);
+const ticker = (['ticker1', 'ticker2', 'ticker3', 'ticker4', 'ticker5', 'ticker6', 'ticker7', 'ticker8', 'ticker9', 'ticker10', 'ticker11'] as const).map((key) => t(key));
+---
+
+<script is:inline set:html={INLINE_SCRIPTS.heroIntro} />
+<section class="hero intro" aria-label={t('heroAria')} data-hero>
+  <div class="wrap hero-in">
+    <div class="hero-copy">
+      <span class="eyebrow rise d0">{t('heroEyebrow')}</span>
+      <h1 class="hd rise d1">{t('heroTitle')} <em>{t('heroTitleEm')}<span class="gd">.</span></em></h1>
+      <p class="hero-sub rise d2">{t('heroSub')}</p>
+      <form class="hsearch rise d3" role="search" action={to('/shop')} method="get">
+        <label class="sr" for="heroq">{t('heroSearch')}</label>
+        <input id="heroq" name="q" type="search" placeholder={t('heroSearch')} autocomplete="off" enterkeyhint="search" />
+        <button class="btn" type="submit"><Icon name="search" />{tc('search')}</button>
+      </form>
+      <div class="chips rise d4">
+        {chips.map((chip) => <a class="chip" href={to(`/shop/${chip.category?.handle}`)}>{chip.label}</a>)}
+      </div>
+      <div class="row-c rise d5">
+        <a class="btn y" href={to('/shop')}>{tc('shopSupplies')}<Icon name="arrowRight" /></a>
+        <a class="btn ow" href={to('/contact')}>{tc('requestQuote')}</a>
+      </div>
+      <div class="stats rise d6">
+        <div><b>{t('stat1Value')}</b><span>{t('stat1Label')}</span></div>
+        <div><b>{tc('freeLocalDelivery')}</b><span>{t('stat2Label')}</span></div>
+        <div><b>{t('stat3Value')}</b><span>{t('stat3Label')}</span></div>
+      </div>
+    </div>
+    <HeroScene tape={t('tapeBand')} />
+  </div>
+  <button class="replay" type="button" data-hero-replay hidden><Icon name="replay" />{t('replay')}</button>
+  <div class="ticker" aria-hidden="true">
+    <div class="mq">
+      {[0, 1].map(() => <span>{ticker.map((item) => <Fragment>{item}<i /></Fragment>)}</span>)}
+    </div>
+  </div>
+</section>
+
+<script>
+  import '@/scripts/hero';
+</script>

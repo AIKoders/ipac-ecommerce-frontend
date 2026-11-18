@@ -1,0 +1,68 @@
+[
+  {
+    "id": "faq_1",
+    "question": {
+      "en": "Do I need an account to order?",
+      "es": "¿Necesito una cuenta para pedir?"
+    },
+    "answer": {
+      "en": "No. Add what you need, check out as a guest and you are done. An account is free and only needed if you want recurring deliveries, order history and one-click reorders.",
+      "es": "No. Agrega lo que necesitas, paga como invitado y listo. La cuenta es gratis y solo hace falta si quieres entregas recurrentes, historial de pedidos y reordenar con un clic."
+    }
+  },
+  {
+    "id": "faq_2",
+    "question": {
+      "en": "Where do you deliver?",
+      "es": "¿A dónde entregan?"
+    },
+    "answer": {
+      "en": "We deliver to businesses across Southwest Florida on our own trucks, and ship by ground anywhere else in the U.S. You can also pick up from our warehouse. Delivery options and dates are shown at checkout.",
+      "es": "Entregamos a negocios en todo el suroeste de Florida con nuestros propios camiones, y enviamos por vía terrestre al resto de EE. UU. También puedes recoger en nuestro almacén. Las opciones y fechas de entrega aparecen al pagar."
+    }
+  },
+  {
+    "id": "faq_3",
+    "question": {
+      "en": "How do recurring orders work?",
+      "es": "¿Cómo funcionan los pedidos recurrentes?"
+    },
+    "answer": {
+      "en": "Choose \"Recurring delivery\" on any product, or turn a past order into a schedule from your account. Pick every 2, 4 or 8 weeks. You can skip a delivery, pause, change the frequency or cancel at any time.",
+      "es": "Elige \"Entrega recurrente\" en cualquier producto, o convierte un pedido anterior en un calendario desde tu cuenta. Escoge cada 2, 4 u 8 semanas. Puedes saltar una entrega, pausar, cambiar la frecuencia o cancelar cuando quieras."
+    }
+  },
+  {
+    "id": "faq_4",
+    "question": {
+      "en": "Do you offer bulk or contract pricing?",
+      "es": "¿Ofrecen precios por volumen o por contrato?"
+    },
+    "answer": {
+      "en": "Yes. Case prices drop automatically at 5 and 10 cases. For pallet quantities or standing contracts, request a quote and we will price it for you.",
+      "es": "Sí. El precio por caja baja automáticamente a partir de 5 y de 10 cajas. Para tarimas o contratos fijos, pide una cotización y te damos precio."
+    }
+  },
+  {
+    "id": "faq_5",
+    "question": {
+      "en": "Can you print our logo on boxes, tape or labels?",
+      "es": "¿Pueden imprimir nuestro logo en cajas, cinta o etiquetas?"
+    },
+    "answer": {
+      "en": "Yes. Custom printed boxes, tape, labels and foam inserts are ordered by quote. Tell us what you ship and we will recommend the right option and minimums.",
+      "es": "Sí. Las cajas, cinta, etiquetas e insertos de espuma impresos a la medida se piden por cotización. Cuéntanos qué envías y te recomendamos la mejor opción y los mínimos."
+    }
+  },
+  {
+    "id": "faq_6",
+    "question": {
+      "en": "What if I ordered the wrong thing?",
+      "es": "¿Y si pedí el producto equivocado?"
+    },
+    "answer": {
+      "en": "Tell us. Unopened cases can be returned or exchanged, and we will pick them up on our next delivery to you.",
+      "es": "Avísanos. Las cajas sin abrir se pueden devolver o cambiar, y las recogemos en nuestra próxima entrega."
+    }
+  }
+]

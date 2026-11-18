@@ -1,0 +1,6 @@
+{
+  "extraKnownMarketplaces": {
+    "aikoders": { "source": { "source": "github", "repo": "AIKoders/aikoders-project-manager" } }
+  },
+  "enabledPlugins": { "aikoders@aikoders": true }
+}

@@ -1,0 +1,30 @@
+---
+import type { Media } from '@/lib/api/types';
+
+/** An <img> for a `Media`, with its srcset, intrinsic size (no layout shift) and lazy loading by default. */
+interface Props {
+  media: Media;
+  /** The slot the image fills, as a `sizes` value. */
+  sizes: string;
+  /** Overrides the media's own alternative text; pass "" for decoration. */
+  alt?: string;
+  eager?: boolean;
+  priority?: boolean;
+  class?: string;
+}
+
+const { media, sizes, alt, eager = false, priority = false, class: className } = Astro.props;
+---
+
+<img
+  src={media.url}
+  srcset={media.srcset}
+  sizes={media.srcset ? sizes : undefined}
+  width={media.width}
+  height={media.height}
+  alt={alt ?? media.alt}
+  loading={eager || priority ? 'eager' : 'lazy'}
+  fetchpriority={priority ? 'high' : undefined}
+  decoding="async"
+  class={className}
+/>

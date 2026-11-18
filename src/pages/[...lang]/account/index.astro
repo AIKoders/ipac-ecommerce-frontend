@@ -1,0 +1,20 @@
+---
+import '@/styles/account.css';
+import '@/styles/product-card.css';
+import { AccountPage } from '@/components/islands/AccountPage';
+import { localeFromParam, localeStaticPaths, translator } from '@/i18n';
+import { seo } from '@/i18n/ns/seo';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getApi } from '@/lib/api';
+
+export const getStaticPaths = localeStaticPaths;
+
+const locale = localeFromParam(Astro.params.lang);
+const ts = translator(seo, locale);
+// The schedules a recurring order can be moved to are a store setting, known at build time.
+const settings = await getApi(locale).store.getSettings();
+---
+
+<BaseLayout locale={locale} title={ts('accountTitle')} description={ts('signInDescription')} path="/account" noindex>
+  <AccountPage client:load locale={locale} intervals={settings.recurring.intervalWeeks} />
+</BaseLayout>

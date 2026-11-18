@@ -1,0 +1,39 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import { localizePath, splitLocale, translator, type Locale } from '@/i18n';
+import { common } from '@/i18n/ns/common';
+
+interface Props {
+  locale: Locale;
+  /** `short` shows EN / ES (utility bar); `long` shows English / Español (mobile menu, account). */
+  size?: 'short' | 'long';
+  class?: string;
+}
+
+const { locale, size = 'short', class: className } = Astro.props;
+const t = translator(common, locale);
+const { path } = splitLocale(Astro.url.pathname);
+const options = [
+  { code: 'en' as const, short: t('en'), long: t('english') },
+  { code: 'es' as const, short: t('es'), long: t('spanish') },
+];
+---
+
+<div class:list={['lang', className]} role="group" aria-label={t('language')}>
+  <Icon name="globe" />
+  {
+    options.map((option) => (
+      <a
+        href={localizePath(option.code, path)}
+        hreflang={option.code}
+        lang={option.code}
+        class:list={[{ on: option.code === locale }]}
+        aria-current={option.code === locale ? 'true' : undefined}
+        aria-label={size === 'short' ? option.long : undefined}
+        data-astro-prefetch="false"
+      >
+        {size === 'short' ? option.short : option.long}
+      </a>
+    ))
+  }
+</div>

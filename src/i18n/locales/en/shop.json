@@ -1,0 +1,23 @@
+{
+  "aisle": "Aisle",
+  "askItem": "Ask for an item",
+  "band40to60": "$40 to $60",
+  "bandAny": "Any price",
+  "bandOver60": "Over $60",
+  "bandUnder40": "Under $40",
+  "clearFilters": "Clear filters",
+  "clearSearch": "Clear search",
+  "emptyBody": "We carry far more than is listed online. Tell us what you are looking for and we will find it.",
+  "emptyTitle": "Nothing matches that yet.",
+  "filters": "Filters",
+  "perCaseNote": "· prices shown per case",
+  "pricePerCase": "Price per case",
+  "quoteBody": "Bulk, custom and printed orders are priced by quote.",
+  "quoteTitle": "Need a pallet, or your logo on it?",
+  "resultsFor": "Results for \"{query}\"",
+  "sortBy": "Sort by",
+  "sortFeatured": "Sort: Featured",
+  "sortHigh": "Price: high to low",
+  "sortLow": "Price: low to high",
+  "sortTop": "Top rated"
+}

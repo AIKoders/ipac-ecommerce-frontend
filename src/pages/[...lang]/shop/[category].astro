@@ -1,0 +1,15 @@
+---
+import ShopView from '@/components/shop/ShopView.astro';
+import { defaultLocale, localeFromParam, locales } from '@/i18n';
+import { getApi } from '@/lib/api';
+
+export async function getStaticPaths() {
+  const categories = await getApi(defaultLocale).catalog.listCategories();
+  return locales.flatMap((locale) => categories.map((category) => ({ params: { lang: locale === defaultLocale ? undefined : locale, category: category.handle } })));
+}
+
+const locale = localeFromParam(Astro.params.lang);
+const category = await getApi(locale).catalog.getCategory(Astro.params.category);
+---
+
+<ShopView locale={locale} category={category} />

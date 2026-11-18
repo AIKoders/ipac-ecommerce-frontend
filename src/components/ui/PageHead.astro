@@ -1,0 +1,22 @@
+---
+import '@/styles/content.css';
+
+/** The navy band that opens a content page: eyebrow, the page's only <h1> and a lead, over the logo's dot and stem. */
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead?: string;
+}
+
+const { eyebrow, title, lead } = Astro.props;
+---
+
+<section class="phead">
+  <span class="dot" aria-hidden="true"></span>
+  <span class="stem" aria-hidden="true"></span>
+  <div class="wrap">
+    <span class="eyebrow">{eyebrow}</span>
+    <h1 class="hd">{title}</h1>
+    {lead && <p>{lead}</p>}
+  </div>
+</section>

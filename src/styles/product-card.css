@@ -1,0 +1,157 @@
+/* Product cards and the grids and rows that hold them. */
+@layer theme, base, components, utilities;
+
+@layer components {
+  .pgrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(min(230px,46%),1fr));
+    gap: 20px;
+  }
+
+  .prow {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(250px,1fr);
+    gap: 20px;
+    overflow-x: auto;
+    padding: 6px 2px 20px;
+    scroll-snap-type: x proximity;
+  }
+
+  .prow > * {
+    scroll-snap-align: start;
+  }
+
+  .pc {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
+    border: 1px solid var(--color-line);
+    transition: transform .2s, box-shadow .2s, border-color .2s;
+    position: relative;
+    min-width: 0;
+    border-color: var(--color-line-soft);
+    border-radius: 20px;
+    padding: 8px;
+    overflow: visible;
+  }
+
+  .pc:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lift);
+    border-color: var(--color-line);
+  }
+
+  .pc-img {
+    display: block;
+    width: 100%;
+    background: var(--color-paper);
+    border-radius: 14px;
+    aspect-ratio: 1/.84;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pc-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform .4s cubic-bezier(.2,.9,.3,1.25);
+    position: relative;
+  }
+
+  .pc:hover .pc-img img {
+    transform: scale(1.08) rotate(-2deg);
+  }
+
+  .pc-b {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    padding: 14px 10px 8px;
+  }
+
+  .pc-n {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 1.25;
+    min-height: 44px;
+    display: block;
+    width: 100%;
+  }
+
+  .pc-n:hover {
+    text-decoration: underline;
+  }
+
+  .pc-p {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .pc-b .eyebrow {
+    font-size: 11px;
+  }
+
+  .pc-f {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 12px;
+  }
+
+  .pc .step {
+    height: 44px;
+  }
+
+  .pc .step button {
+    width: 40px;
+  }
+
+  .pc.in {
+    border-color: var(--color-green);
+    box-shadow: 0 0 0 1.5px var(--color-green);
+  }
+
+  .pc.in .step {
+    border-color: var(--color-leaf);
+  }
+
+  .pc-img::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 74%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--color-mint-soft);
+    transform: translate(-50%,-50%) scale(0);
+    transition: transform .45s cubic-bezier(.2,.9,.3,1.2);
+  }
+
+  .pc:hover .pc-img::before {
+    transform: translate(-50%,-50%) scale(1);
+  }
+
+  @media (max-width: 900px) {
+    .pc {
+      padding: 6px;
+    }
+
+    .pc-b {
+      padding: 10px 6px 6px;
+    }
+
+    .pc-f {
+      flex-wrap: wrap;
+    }
+  }
+}

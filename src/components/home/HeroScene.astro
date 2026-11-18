@@ -1,0 +1,51 @@
+---
+import { LETTERS, LOGO_VIEWBOX } from '@/components/ui/logo-paths';
+import Picture from '@/components/ui/Picture.astro';
+import { localMedia } from '@/lib/media';
+
+/**
+ * The hero's stage. During the intro the logo assembles (the dot drops onto
+ * the stem, "pac" wipes in, a strip of tape runs across), then its parts
+ * become the scene: the dot turns into a green light, the box lands and seven
+ * products settle into orbit around it. All of it is CSS (styles/hero.css).
+ */
+interface Props {
+  tape: string;
+}
+
+const { tape } = Astro.props;
+const orbit = ['tape', 'cups', 'bubble-wrap', 'takeout', 'poly-mailers', 'labels', 'paper-bags'];
+const confetti = Array.from({ length: 14 }, (_, index) => index + 1);
+---
+
+<div class="scene" aria-hidden="true">
+  <div class="lt">
+    <div class="ry ry1"></div>
+    <div class="ry ry2"></div>
+    <div class="glw"></div>
+    <div class="pls"></div>
+  </div>
+  <div class="flr"></div>
+  <div class="dsc"></div>
+  <div class="rg rgb"></div>
+  <div class="stm"></div>
+  <svg class="pacw" viewBox={LOGO_VIEWBOX}><path d={LETTERS} class="fill-white"></path></svg>
+  <div class="tpb"><span>{`${tape} `.repeat(6)}</span></div>
+  <div class="shk"></div>
+  {
+    orbit.map((key, index) => (
+      <div class={`orb o${index + 1}`}>
+        <div class="ox">
+          <div class="oy">
+            <Picture media={localMedia('products', key)} alt="" sizes="(max-width: 900px) 84px, 114px" eager />
+          </div>
+        </div>
+      </div>
+    ))
+  }
+  <div class="bx">
+    <Picture media={localMedia('products', 'box-brand')} alt="" sizes="(max-width: 900px) 72vw, 432px" eager class="bob" />
+  </div>
+  <div class="rg rgf"></div>
+  {confetti.map((n) => <i class={`cf c${n}`} />)}
+</div>

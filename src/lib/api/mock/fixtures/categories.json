@@ -1,0 +1,77 @@
+[
+  {
+    "id": "cat_01y3z100qh50eyfaxnefzzrm0j",
+    "key": "boxes",
+    "handle": "boxes-mailers",
+    "name": {
+      "en": "Boxes & Mailers",
+      "es": "Cajas y sobres"
+    },
+    "description": {
+      "en": "Shipping boxes, mailer boxes, poly and bubble mailers",
+      "es": "Cajas de envío, cajas mailer, sobres de polietileno y con burbujas"
+    },
+    "image": "box-brand",
+    "position": 0
+  },
+  {
+    "id": "cat_01c7333syq78gpp7t18995ckaz",
+    "key": "tape",
+    "handle": "tape-labels",
+    "name": {
+      "en": "Tape & Labels",
+      "es": "Cinta y etiquetas"
+    },
+    "description": {
+      "en": "Packing tape, dispensers and thermal labels",
+      "es": "Cinta de embalaje, despachadores y etiquetas térmicas"
+    },
+    "image": "tape-gun",
+    "position": 1
+  },
+  {
+    "id": "cat_01m5zckg38ds5y6t2t42det9jp",
+    "key": "cushion",
+    "handle": "cushioning-wrap",
+    "name": {
+      "en": "Cushioning & Wrap",
+      "es": "Protección y envoltura"
+    },
+    "description": {
+      "en": "Bubble, kraft paper and stretch film",
+      "es": "Burbujas, papel kraft y película estirable"
+    },
+    "image": "bubble-wrap",
+    "position": 2
+  },
+  {
+    "id": "cat_01yjzkzyjttse0pdez9pt3q98x",
+    "key": "food",
+    "handle": "food-service",
+    "name": {
+      "en": "Food Service",
+      "es": "Servicio de alimentos"
+    },
+    "description": {
+      "en": "Take-out boxes, cups, deli containers and bags",
+      "es": "Cajas para llevar, vasos, envases deli y bolsas"
+    },
+    "image": "takeout",
+    "position": 3
+  },
+  {
+    "id": "cat_012hsdpckywmzw7mjzmb6kr3k7",
+    "key": "facility",
+    "handle": "janitorial-safety",
+    "name": {
+      "en": "Janitorial & Safety",
+      "es": "Limpieza y seguridad"
+    },
+    "description": {
+      "en": "Gloves, can liners and paper towels",
+      "es": "Guantes, bolsas de basura y toallas de papel"
+    },
+    "image": "gloves",
+    "position": 4
+  }
+]

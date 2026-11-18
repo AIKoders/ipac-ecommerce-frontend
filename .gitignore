@@ -155,3 +155,18 @@ vite.config.ts.timestamp-*
 .nx/cache
 .nx/workspace-data
 .nx/migrate-runs
+
+# Astro / Vercel build output
+dist/
+.astro/
+.vercel/
+
+# Local environment files: values live in Koda, only the example is committed
+.env
+.env.*
+!.env.example
+
+# OS / editors
+.DS_Store
+.idea/
+*.tsbuildinfo

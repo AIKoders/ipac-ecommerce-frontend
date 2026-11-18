@@ -1,0 +1,44 @@
+---
+import { translator, type Locale } from '@/i18n';
+import { home } from '@/i18n/ns/home';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = translator(home, locale);
+/** Sample testimonials, styled as shipping labels. They are placeholders until real customer quotes replace them. */
+const labels = [
+  { from: t('review1From'), quote: t('review1Quote'), city: t('review1City') },
+  { from: t('review2From'), quote: t('review2Quote'), city: t('review2City') },
+  { from: t('review3From'), quote: t('review3Quote'), city: t('review3City') },
+];
+---
+
+<section class="sec paper">
+  <div class="wrap">
+    <div class="sec-h rv">
+      <div>
+        <span class="eyebrow">{t('reviewsEyebrow')}</span>
+        <h2 class="hd">{t('reviewsTitle')}</h2>
+      </div>
+      <p>{t('reviewsLead')}</p>
+    </div>
+    <div class="labs">
+      {
+        labels.map((label) => (
+          <figure class="lab rv">
+            <div class="lab-h"><span>{label.from}</span><span>{t('sample')}</span></div>
+            <span class="stars self-start" role="img" aria-label={t('fiveStars')}>★★★★★<i class="w-full">★★★★★</i></span>
+            <blockquote><q>{label.quote}</q></blockquote>
+            <figcaption class="sp">
+              <span class="fine">{t('reviewShipTo')}<br />{label.city}</span>
+              <div class="barcode"></div>
+            </figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>
